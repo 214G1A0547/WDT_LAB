@@ -1,40 +1,64 @@
-<html>
+<?php
+include 'header.php';
+?>
+<div id="main-content">
+<?php
+include 'config.php';
+$sql = "SELECT * FROM student JOIN studentclass WHERE student.sclass =
+studentclass.cid";
+$result = mysqli_query($conn, $sql) or die("Query Unsuccessful.");
+if(mysqli_num_rows($result) > 0) {
+?>
+<h2 align="center">All Records</h2>
+<table cellpadding="7px" align="center">
+<thead>
+<th>Id</th>
+<th>Name</th>
+<th>Address</th>
+<th>Class</th>
+<th>Phone</th>
+<th>Action</th>
+</thead>
+<tbody>
+<?php
+while($row = mysqli_fetch_assoc($result)){
+?>
+<tr>
+<td><?php echo $row['sid']; ?></td>
+<td><?php echo $row['sname']; ?></td>
+<td><?php echo $row['saddress']; ?></td>
+<td><?php echo $row['cname']; ?></td>
+<td><?php echo $row['sphone']; ?></td>
+<td>
+<a href='edit.php?id=<?php echo $row['sid']; ?>'>Edit</a>
+<a href='delete-inline.php?id=<?php echo $row['sid']; ?>'>Delete</a>
+</td>
+</tr>
+<?php } ?>
+</tbody>
+</table>
+<?php }else{
+echo "<h2>No Record Found</h2>";
+}
+mysqli_close($conn);
+?>
+</div>
+</div>
+
 <head>
-<title>Index</title>
 <style>
-#footer { Position: fixed;
-padding: 10px 10px 0px 10px; bottom: 0;
-width: 100%; height: 40px;
+.footer{
+position:fixed;
+left:0;
+bottom:0;
+width:100%;
+color:white;
+background:green;
+text-align:center;
 }
 </style>
 </head>
-<body>
-<form name="form1" method="post">
-<table align="center" width="70%" border="0" cellpadding="3" cellspacing="1">
-<br/>
-<tr>
-<td>Name : </td>
-<td><input name="uname" type="text"></td>
-</tr>
-<tr>
-<td></td>
-<td ><input type="submit" name="Submit" value="SUBMIT"></td>
-</tr>
-</table>
-</form>
-<?php if(isset($_POST['Submit']))
-{
-date_default_timezone_set('Asia/Kolkata');
-$currentTime = date( 'h:i:s A', time () );
-$uname=$_POST["uname"]; session_start();
-$_SESSION["name"] = $_POST["uname"];
-
-    $_SESSION["stime"] = $currentTime;       
-      header('Location: Home.php');
-}
-?>
-<div id = "footer">
-<p align = "center"> &copy;N.USHASREE all rights --reserved </p>
-</div>
+<div class="footer">
+<p align="center"> &copy; G.Lakshmi Narasimha Reddy--Allrights Reserved
 </body>
 </html>
